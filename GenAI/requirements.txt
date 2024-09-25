@@ -4,3 +4,4 @@ scikit-learn
 requests
 transformers
 tensorflow
+tf-keras
