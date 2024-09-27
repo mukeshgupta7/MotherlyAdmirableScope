@@ -4,4 +4,6 @@ scikit-learn
 requests
 transformers
 openai
+torch
+torchvision
 python-dotenv
