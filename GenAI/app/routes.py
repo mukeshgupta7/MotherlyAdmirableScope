@@ -17,6 +17,10 @@ content_agent = ContentAgent()
 optimization_agent = OptimizationAgent(campaign_data)
 monitoring_agent = MonitoringAgent(thresholds)
 
+@main.route('/')
+def index():
+    return 'Hello'
+
 @main.route('/process_campaign', methods=['POST'])
 def process_campaign():
     data = request.json
