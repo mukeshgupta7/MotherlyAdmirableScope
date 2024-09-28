@@ -57,12 +57,15 @@ class ContentAgent:
 #         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
 #         return f"Generated text: {summary}"
 
-from gensim.summarization.keypoints import keywords
+from transformers import pipeline
 
 class ContentAgent:
+    def __init__(self):
+        self.summarizer = pipeline('summarization')
+
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
-        # Use gensim for text processing
-        summary = keywords(personalized_prompt).split()
+        # Use a pre-trained language model for text processing
+        summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
         return f"Generated text: {summary}"
