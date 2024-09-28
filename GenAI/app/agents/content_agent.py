@@ -57,16 +57,12 @@ class ContentAgent:
 #         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
 #         return f"Generated text: {summary}"
 
-import stanza
+from gensim.summarization.keypoints import keywords
 
 class ContentAgent:
-    def __init__(self):
-        self.nlp = stanza.Pipeline('en')
-
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
-        # Use Stanford CoreNLP for text processing
-        doc = self.nlp(personalized_prompt)
-        summary = [token.text for sentence in doc.sentences for token in sentence.tokens if token.pos in ['NN', 'NNS', 'NNP', 'NNPS']]
+        # Use gensim for text processing
+        summary = keywords(personalized_prompt).split()
         return f"Generated text: {summary}"
