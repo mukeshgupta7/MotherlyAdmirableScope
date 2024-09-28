@@ -44,10 +44,22 @@ class ContentAgent:
 #             print(f"Error generating content: {e}")
 #             return "Error generating personalized content."
 
-
+import nltk
 from textblob import TextBlob
 
 class ContentAgent:
+    def __init__(self):
+        try:
+            nltk.data.find('taggers/averaged_perceptron_tagger.zip')
+            nltk.data.find('corpora/wordnet')
+            nltk.data.find('chunkers/maxent_ne_chunker')
+            nltk.data.find('tokenizers/punkt')
+        except LookupError:
+            nltk.download('averaged_perceptron_tagger')
+            nltk.download('wordnet')
+            nltk.download('maxent_ne_chunker')
+            nltk.download('punkt')
+            
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
