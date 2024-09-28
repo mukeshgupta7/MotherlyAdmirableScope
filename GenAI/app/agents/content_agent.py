@@ -57,15 +57,16 @@ class ContentAgent:
 #         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
 #         return f"Generated text: {summary}"
 
-from transformers import pipeline
+import stanza
 
 class ContentAgent:
     def __init__(self):
-        self.summarizer = pipeline('summarization', device=-1)
+        self.nlp = stanza.Pipeline('en')
 
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
-        # Use a pre-trained language model for text processing
-        summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
+        # Use Stanford CoreNLP for text processing
+        doc = self.nlp(personalized_prompt)
+        summary = [token.text for sentence in doc.sentences for token in sentence.tokens if token.pos in ['NN', 'NNS', 'NNP', 'NNPS']]
         return f"Generated text: {summary}"
