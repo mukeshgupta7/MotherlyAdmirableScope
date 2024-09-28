@@ -30,16 +30,17 @@ def process_campaign():
 
     # Step 1: Audience Segmentation
     segment = segmentation_agent.segment(customer_data)
+    print("##segmentation_agent.")
 
     # Step 2: Content Generation
     generated_content = content_agent.generate_content(prompt, segment)
-
+    print("##content_agent.")
     # Step 3: Campaign Optimization
     optimization = optimization_agent.get_optimization_suggestions(segment)
-
+print("##optimization_agent.")
     # Step 4: Monitor real-time performance and adjust
     performance_suggestions = monitoring_agent.check_performance(real_time_metrics)
-
+print("##monitoring_agent.")
     return jsonify({
         "segment": segment,
         "generated_content": generated_content,
