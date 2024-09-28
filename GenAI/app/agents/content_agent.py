@@ -57,16 +57,15 @@ class ContentAgent:
 #         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
 #         return f"Generated text: {summary}"
 
-import spacy
+from transformers import pipeline
 
 class ContentAgent:
     def __init__(self):
-        self.nlp = spacy.load("en_core_web_sm")
+        self.summarizer = pipeline('summarization', device=-1)
 
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
-        # Use spaCy for text processing
-        doc = self.nlp(personalized_prompt)
-        summary = [chunk.text for chunk in doc.noun_chunks]
+        # Use a pre-trained language model for text processing
+        summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
         return f"Generated text: {summary}"
