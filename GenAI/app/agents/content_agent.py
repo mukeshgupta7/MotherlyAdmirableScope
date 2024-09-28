@@ -44,15 +44,29 @@ class ContentAgent:
 #             print(f"Error generating content: {e}")
 #             return "Error generating personalized content."
 
-from transformers import pipeline
+# from transformers import pipeline
+
+# class ContentAgent:
+#     def __init__(self):
+#         self.summarizer = pipeline('summarization')
+
+#     def generate_content(self, prompt, customer_segment):
+#         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
+
+#         # Use a pre-trained language model for text processing
+#         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
+#         return f"Generated text: {summary}"
+
+import spacy
 
 class ContentAgent:
     def __init__(self):
-        self.summarizer = pipeline('summarization')
+        self.nlp = spacy.load("en_core_web_sm")
 
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
-        # Use a pre-trained language model for text processing
-        summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
+        # Use spaCy for text processing
+        doc = self.nlp(personalized_prompt)
+        summary = [chunk.text for chunk in doc.noun_chunks]
         return f"Generated text: {summary}"
