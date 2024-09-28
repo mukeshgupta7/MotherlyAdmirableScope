@@ -44,26 +44,15 @@ class ContentAgent:
 #             print(f"Error generating content: {e}")
 #             return "Error generating personalized content."
 
-import nltk
-from textblob import TextBlob
+from transformers import pipeline
 
 class ContentAgent:
     def __init__(self):
-        try:
-            nltk.data.find('taggers/averaged_perceptron_tagger.zip')
-            nltk.data.find('corpora/wordnet')
-            nltk.data.find('chunkers/maxent_ne_chunker')
-            nltk.data.find('tokenizers/punkt')
-        except LookupError:
-            nltk.download('averaged_perceptron_tagger')
-            nltk.download('wordnet')
-            nltk.download('maxent_ne_chunker')
-            nltk.download('punkt')
-            
+        self.summarizer = pipeline('summarization')
+
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
 
-        # Use simple rule-based text processing (TextBlob)
-        blob = TextBlob(personalized_prompt)
-        summary = blob.noun_phrases  # Extracts key phrases
+        # Use a pre-trained language model for text processing
+        summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
         return f"Generated text: {summary}"
