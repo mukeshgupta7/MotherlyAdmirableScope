@@ -37,10 +37,11 @@ def process_campaign():
     print("##content_agent.")
     # Step 3: Campaign Optimization
     optimization = optimization_agent.get_optimization_suggestions(segment)
-print("##optimization_agent.")
+    print("##optimization_agent.")
     # Step 4: Monitor real-time performance and adjust
     performance_suggestions = monitoring_agent.check_performance(real_time_metrics)
-print("##monitoring_agent.")
+    print("##monitoring_agent.")
+    
     return jsonify({
         "segment": segment,
         "generated_content": generated_content,
