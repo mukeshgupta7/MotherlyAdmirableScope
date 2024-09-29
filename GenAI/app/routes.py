@@ -4,6 +4,7 @@ from app.agents.content_agent import ContentAgent
 from app.agents.optimization_agent import OptimizationAgent
 from app.agents.monitoring_agent import MonitoringAgent
 import pandas as pd
+import numpy as np
 
 main = Blueprint('main', __name__)
 
