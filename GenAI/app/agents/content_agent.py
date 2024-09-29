@@ -61,7 +61,8 @@ import spacy
 
 class ContentAgent:
     def __init__(self):
-        self.nlp = spacy.load("en_core_web_sm")
+        #self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = spacy.load("en-core-web-md")
 
     def generate_content(self, prompt, customer_segment):
         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
