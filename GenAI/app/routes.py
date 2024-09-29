@@ -5,6 +5,7 @@ from app.agents.optimization_agent import OptimizationAgent
 from app.agents.monitoring_agent import MonitoringAgent
 import pandas as pd
 import numpy as np
+import json
 
 main = Blueprint('main', __name__)
 
@@ -49,9 +50,13 @@ def process_campaign():
     optimization = np.int64(optimization) if isinstance(optimization, np.int32) else optimization
     performance_suggestions = np.int64(performance_suggestions) if isinstance(performance_suggestions, np.int32) else performance_suggestions
     
-    return jsonify({
-        "segment": segment,
-        "generated_content": generated_content,
-        "optimization": optimization,
-        "performance_suggestions": performance_suggestions
-    }, ensure_ascii=False)
+    # return jsonify({
+    #     "segment": segment,
+    #     "generated_content": generated_content,
+    #     "optimization": optimization,
+    #     "performance_suggestions": performance_suggestions
+    # }, ensure_ascii=False)
+
+# ...
+
+    return json.dumps({"segment": segment, "generated_content": generated_content, "optimization": optimization, "performance_suggestions": performance_suggestions}), 200, {"Content-Type": "application/json"}
