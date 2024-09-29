@@ -57,7 +57,7 @@ class ContentAgent:
 #         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
 #         return f"Generated text: {summary}"
 
-# import spacy
+import spacy
 
 class ContentAgent:
     def __init__(self):
