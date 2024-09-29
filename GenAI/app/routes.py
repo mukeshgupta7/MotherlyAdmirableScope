@@ -54,4 +54,4 @@ def process_campaign():
         "generated_content": generated_content,
         "optimization": optimization,
         "performance_suggestions": performance_suggestions
-    })
+    }, ensure_ascii=False)
