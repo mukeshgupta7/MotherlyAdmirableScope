@@ -43,6 +43,10 @@ def process_campaign():
     # Step 4: Monitor real-time performance and adjust
     performance_suggestions = monitoring_agent.check_performance(real_time_metrics)
     print("##monitoring_agent.")
+
+    segment = np.int64(segment) if isinstance(segment, np.int32) else segment
+    optimization = np.int64(optimization) if isinstance(optimization, np.int32) else optimization
+    performance_suggestions = np.int64(performance_suggestions) if isinstance(performance_suggestions, np.int32) else performance_suggestions
     
     return jsonify({
         "segment": segment,
