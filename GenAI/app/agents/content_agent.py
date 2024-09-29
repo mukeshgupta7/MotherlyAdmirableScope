@@ -57,16 +57,45 @@ class ContentAgent:
 #         summary = self.summarizer(personalized_prompt, max_length=50, min_length=30, do_sample=False)
 #         return f"Generated text: {summary}"
 
+# import spacy
+
+# class ContentAgent:
+#     def __init__(self):
+#         self.nlp = spacy.load("en_core_web_sm")
+
+#     def generate_content(self, prompt, customer_segment):
+#         personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
+
+#         # Use spaCy for text processing
+#         doc = self.nlp(personalized_prompt)
+#         summary = [chunk.text for chunk in doc.noun_chunks]
+#         return f"Generated text: {summary}"
+
 import spacy
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 class ContentAgent:
     def __init__(self):
         self.nlp = spacy.load("en_core_web_sm")
+        self.t5_model = T5ForConditionalGeneration.from_pretrained('t5-small')
+        self.t5_tokenizer = T5Tokenizer.from_pretrained('t5-small')
 
     def generate_content(self, prompt, customer_segment):
-        personalized_prompt = f"For customer segment {customer_segment}: {prompt}"
+        personalized_prompt = f"Create a marketing message for customer segment {customer_segment} based on the following prompt: {prompt}"
 
         # Use spaCy for text processing
         doc = self.nlp(personalized_prompt)
-        summary = [chunk.text for chunk in doc.noun_chunks]
-        return f"Generated text: {summary}"
+        keywords = [token.text for token in doc if token.pos_ == "NOUN" or token.pos_ == "VERB"]
+
+        # Use T5 model to generate marketing content
+        input_ids = self.t5_tokenizer.encode("generate marketing content", return_tensors="pt")
+        attention_mask = self.t5_tokenizer.encode("generate marketing content", return_tensors="pt", max_length=512, padding="max_length", truncation=True)
+        output = self.t5_model.generate(input_ids, attention_mask=attention_mask, num_beams=4, no_repeat_ngram_size=2, min_length=50, max_length=200)
+
+        # Post-processing to make the content more engaging
+        generated_content = self.t5_tokenizer.decode(output[0], skip_special_tokens=True)
+        generated_content = generated_content.replace("generate marketing content", "")
+        generated_content = generated_content.capitalize()
+        generated_content = generated_content + " " + ", ".join(keywords)
+
+        return generated_content
