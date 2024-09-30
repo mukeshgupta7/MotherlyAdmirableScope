@@ -24,7 +24,7 @@ monitoring_agent = MonitoringAgent(thresholds)
 def index():
     return 'Hello'
 
-@main.route('/process_campaign', methods=['POST'])
+@main.route('/process_campaign', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def process_campaign():
     data = request.json
