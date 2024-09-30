@@ -3,6 +3,7 @@ from app.agents.segmentation_agent import SegmentationAgent
 from app.agents.content_agent import ContentAgent
 from app.agents.optimization_agent import OptimizationAgent
 from app.agents.monitoring_agent import MonitoringAgent
+from flask_cors import cross_origin
 import pandas as pd
 import numpy as np
 import json
@@ -24,6 +25,7 @@ def index():
     return 'Hello'
 
 @main.route('/process_campaign', methods=['POST'])
+@cross_origin()
 def process_campaign():
     data = request.json
     customer_data = data.get('customer_data', {})
