@@ -27,9 +27,6 @@ def index():
 @main.route('/process_campaign', methods=['POST'])
 @cross_origin()
 def process_campaign():
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    
     data = request.json
     customer_data = data.get('customer_data', {})
     prompt = data.get('prompt', '')
